@@ -14,4 +14,10 @@ public class FakeRepository implements CodeRepository {
     public Optional<Code> getCode(long id) {
         return Optional.of(code);
     }
+
+    @Override
+    public Optional<Code> setCode(String newCode) {
+        this.code = new Code(newCode, LocalDate.now());
+        return Optional.of(code);
+    }
 }

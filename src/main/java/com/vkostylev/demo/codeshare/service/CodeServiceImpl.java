@@ -53,4 +53,18 @@ public class CodeServiceImpl implements CodeSerivce {
         System.out.println("Dto not found");
         return Optional.empty();
     }
+
+    @Override
+    public Optional<String> setCode(CodeDto codeDto) {
+        Optional<Code> result = codeRepository.setCode(codeDto.code());
+        System.out.println(result.get().getCode());
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return Optional.of("{ }");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
 }
