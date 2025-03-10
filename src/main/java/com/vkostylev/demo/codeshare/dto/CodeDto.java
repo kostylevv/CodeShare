@@ -1,3 +1,7 @@
 package com.vkostylev.demo.codeshare.dto;
 
-public record CodeDto(String code) { }
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
+
+public record CodeDto(String code, @JsonFormat(pattern="yyyy-MM-dd") LocalDate date) { }

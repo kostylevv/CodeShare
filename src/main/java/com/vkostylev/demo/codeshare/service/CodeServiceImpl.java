@@ -2,6 +2,7 @@ package com.vkostylev.demo.codeshare.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vkostylev.demo.codeshare.dto.CodeDto;
 import com.vkostylev.demo.codeshare.dto.HtmlCodeDto;
 import com.vkostylev.demo.codeshare.model.Code;
@@ -21,7 +22,7 @@ public class CodeServiceImpl implements CodeSerivce {
     @Override
     public Optional<CodeDto> getCode(long id) {
         Optional<Code> code = codeRepository.getCode(id);
-        return code.map(value -> new CodeDto(value.getCode()));
+        return code.map(value -> new CodeDto(value.getCode(), value.getDate()));
     }
 
     @Override
@@ -41,6 +42,7 @@ public class CodeServiceImpl implements CodeSerivce {
         Optional<CodeDto> dto = getCode(id);
         if (dto.isPresent()) {
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
             try {
                 return Optional.of(objectMapper.writeValueAsString(dto.get()));
             } catch (JsonProcessingException e) {
