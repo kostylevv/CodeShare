@@ -1,18 +1,20 @@
 package com.vkostylev.demo.codeshare.controller;
 
 import com.vkostylev.demo.codeshare.dto.CodeDto;
-import com.vkostylev.demo.codeshare.model.Code;
 import com.vkostylev.demo.codeshare.service.CodeSerivce;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-@RestController
+@Controller
 public class CodeController {
     private final CodeSerivce codeSerivce;
     private static final String NEW_CODE_HTML = "<html>\n" +
@@ -49,13 +51,18 @@ public class CodeController {
     }
 
     @GetMapping(path = "/code")
-    public ResponseEntity<String> getCodeHtml() {
-        Optional<String> result = codeSerivce.getHtml(1L);
-
-        return result.map(s -> ResponseEntity.ok()
-                .contentType(MediaType.TEXT_HTML)
-                .body(s)).orElseGet(() -> ResponseEntity.notFound().build());
-
+    public String getCodeHtml(Model model, HttpServletResponse response) {
+        Optional<CodeDto> codeDto = codeSerivce.getCode(1L);
+        if (codeDto.isPresent()) {
+            CodeDto result = codeDto.get();
+            model.addAttribute("snippet", result.code());
+            model.addAttribute("date", result.date());
+            response.setStatus(HttpStatus.OK.value());
+            return "snippet";
+        } else {
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            return "nothing";
+        }
     }
 
     @GetMapping(path = "/api/code")
