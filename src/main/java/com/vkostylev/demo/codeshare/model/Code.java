@@ -3,12 +3,13 @@ package com.vkostylev.demo.codeshare.model;
 import java.time.LocalDate;
 
 public class Code {
-    private long id;
+    private final long id;
     private String code;
 
     private LocalDate date;
 
-    public Code(String code, LocalDate date) {
+    public Code(long id, String code, LocalDate date) {
+        this.id = id;
         this.code = code;
         this.date = date;
     }
@@ -21,4 +22,7 @@ public class Code {
         return date;
     }
 
+    public long getId() {
+        return id;
+    }
 }
