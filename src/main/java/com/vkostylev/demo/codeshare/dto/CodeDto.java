@@ -1,18 +1,10 @@
 package com.vkostylev.demo.codeshare.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDate;
-
 public class CodeDto {
-    private final long id;
     private final String code;
+    private final String date;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private final LocalDate date;
-
-    public CodeDto(long id, String code, LocalDate date) {
-        this.id = id;
+    public CodeDto(String code, String date) {
         this.code = code;
         this.date = date;
     }
@@ -21,11 +13,8 @@ public class CodeDto {
         return code;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public long getId() {
-        return id;
-    }
 }

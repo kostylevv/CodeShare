@@ -27,7 +27,7 @@ public class FakeRepository implements CodeRepository {
     @Override
     public List<Code> getLatest() {
         return codes.values().stream()
-                        .sorted(Comparator.comparing(Code::getDate).reversed())
+                        .sorted(Comparator.comparing(Code::getId).reversed())
                 .limit(10)
                 .toList();
     }

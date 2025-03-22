@@ -48,7 +48,7 @@
                                 <span id="load_date">${date}</span>
                             </div>
                             <p class="card-text mb-auto">
-                            <pre><code>${snippet}</code></pre>
+                            <pre id="code_snippet">${snippet}</pre>
                             </p>
                         </div>
                     </div>

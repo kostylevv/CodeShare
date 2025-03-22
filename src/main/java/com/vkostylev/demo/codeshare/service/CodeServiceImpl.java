@@ -1,13 +1,14 @@
 package com.vkostylev.demo.codeshare.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vkostylev.demo.codeshare.dto.CodeDto;
 import com.vkostylev.demo.codeshare.dto.CodeIdDto;
 import com.vkostylev.demo.codeshare.dto.CodeMapper;
 import com.vkostylev.demo.codeshare.model.Code;
 import com.vkostylev.demo.codeshare.repository.CodeRepository;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,6 @@ public class CodeServiceImpl implements CodeSerivce {
         Optional<CodeDto> dto = getCode(id);
         if (dto.isPresent()) {
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
             try {
                 return Optional.of(objectMapper.writeValueAsString(dto.get()));
             } catch (JsonProcessingException e) {
@@ -63,9 +63,8 @@ public class CodeServiceImpl implements CodeSerivce {
 
     @Override
     public String getLatestJson() {
-        List<Code> codes = codeRepository.getLatest();
+        List<CodeDto> codes = getLatest();
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
 
         try {
             return objectMapper.writeValueAsString(codes);
