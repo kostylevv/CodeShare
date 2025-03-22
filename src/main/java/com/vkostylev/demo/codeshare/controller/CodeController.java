@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -26,10 +27,10 @@ public class CodeController {
         Optional<CodeDto> codeDto = codeSerivce.getCode(id);
         if (codeDto.isPresent()) {
             CodeDto result = codeDto.get();
-            model.addAttribute("snippet", result.code());
-            model.addAttribute("date", result.date());
+            model.addAttribute("snippet", result.getCode());
+            model.addAttribute("date", result.getDate());
             response.setStatus(HttpStatus.OK.value());
-            return "snippet";
+            return "code";
         } else {
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return "nothing";
@@ -47,7 +48,7 @@ public class CodeController {
 
     @GetMapping(path = "/code/new")
     public String createCodeGet() {
-        return "newsnippet";
+        return "addnew";
     }
 
     @PostMapping(path = "/api/code/new")
@@ -58,6 +59,26 @@ public class CodeController {
                 .body(result);
     }
 
+    @GetMapping(path = "/code/latest")
+    public String getLatest(Model model, HttpServletResponse response) {
+        List<CodeDto> latest = codeSerivce.getLatest();
+        model.addAttribute("snippets", latest);
+        response.setStatus(HttpStatus.OK.value());
+        return "latest";
+    }
 
+    @GetMapping(path = "/api/code/latest")
+    public ResponseEntity<String> getLatestJson() {
+        String result = codeSerivce.getLatestJson();
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(result);
+    }
+
+    @GetMapping(path = "/code/about")
+    public String getAbout(HttpServletResponse response) {
+        response.setStatus(HttpStatus.OK.value());
+        return "about";
+    }
 
 }

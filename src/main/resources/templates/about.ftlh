@@ -25,7 +25,7 @@
           <div class="col-2 pt-1">
           </div>
           <div class="col-6 text-center">
-            <a class="blog-header-logo text-dark" href="about.html">Code share</a>
+            <a class="blog-header-logo text-dark" href="#">Code share</a>
           </div>
           <div class="col-2 d-flex justify-content-end align-items-center">
            </div>
@@ -34,21 +34,31 @@
 
       <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">
-		  <a class="p-2 text-muted" href="/code/new">New code</a>
+          <a class="p-2 text-muted" href="/code/new">New code</a>
           <a class="p-2 text-muted" href="/code/latest">Latest</a>
           <a class="p-2 text-muted" href="/code/about">About</a>
-         
         </nav>
       </div>
 
-      <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-        <div class="col-md-6 px-0">
-          <h1 class="display-4 font-italic">HTTP 404, not found!</h1>
-          <p class="lead my-3">
-			Additional optional message
-		  </p>
-        </div>
-      </div>
+      <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8 blog-main">
+          
+
+          <div class="blog-post">
+            <h2 class="blog-post-title">About</h2>
+				Made by Vlad Kostylev as educational project in Hyperskill.
+          </div><!-- /.blog-post -->
+
+
+        </div><!-- /.blog-main -->
+
+       
+
+      </div><!-- /.row -->
+
+    </main><!-- /.container -->
+
 
     <footer class="blog-footer">
       <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>

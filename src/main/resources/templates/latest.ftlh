@@ -25,7 +25,7 @@
           <div class="col-2 pt-1">
           </div>
           <div class="col-6 text-center">
-            <a class="blog-header-logo text-dark" href="about.html">Code share</a>
+            <a class="blog-header-logo text-dark" href="#">Code share</a>
           </div>
           <div class="col-2 d-flex justify-content-end align-items-center">
            </div>
@@ -36,19 +36,29 @@
         <nav class="nav d-flex justify-content-between">
 		  <a class="p-2 text-muted" href="/code/new">New code</a>
           <a class="p-2 text-muted" href="/code/latest">Latest</a>
-          <a class="p-2 text-muted" href="/code/about">About</a>
-         
+		  <a class="p-2 text-muted" href="/code/about">About</a>
         </nav>
       </div>
+      <div class="container">
 
-      <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-        <div class="col-md-6 px-0">
-          <h1 class="display-4 font-italic">HTTP 404, not found!</h1>
-          <p class="lead my-3">
-			Additional optional message
-		  </p>
+      <#list snippets as snippet>
+      <div class="row">
+        <div class="col">
+          <div class="card flex-md-row mb-4 box-shadow h-md-250">
+            <div class="card-body d-flex flex-column align-items-start">
+              <div class="mb-1 text-muted">
+                <span id="load_date">${snippet.date}</span>
+              </div>
+                <p class="card-text mb-auto">
+                  <pre><code>${snippet.code}</code></pre>
+			    </p>
+            </div>
+          </div>
         </div>
       </div>
+    </#list>
+    </div>
+
 
     <footer class="blog-footer">
       <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>

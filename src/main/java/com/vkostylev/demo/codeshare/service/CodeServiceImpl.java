@@ -10,6 +10,7 @@ import com.vkostylev.demo.codeshare.model.Code;
 import com.vkostylev.demo.codeshare.repository.CodeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,6 +50,25 @@ public class CodeServiceImpl implements CodeSerivce {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(codeIdDto);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    @Override
+    public List<CodeDto> getLatest() {
+        return codeRepository.getLatest().stream().map(CodeMapper::mapToCodeDto).toList();
+    }
+
+    @Override
+    public String getLatestJson() {
+        List<Code> codes = codeRepository.getLatest();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        try {
+            return objectMapper.writeValueAsString(codes);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return "";

@@ -4,9 +4,7 @@ import com.vkostylev.demo.codeshare.model.Code;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class FakeRepository implements CodeRepository {
@@ -15,7 +13,7 @@ public class FakeRepository implements CodeRepository {
 
     @Override
     public Optional<Code> getCode(long id) {
-        return Optional.of(codes.get(id));
+        return Optional.ofNullable(codes.get(id));
     }
 
     @Override
@@ -24,6 +22,14 @@ public class FakeRepository implements CodeRepository {
         codes.put(counter, newCode);
         counter++;
         return newCode;
+    }
+
+    @Override
+    public List<Code> getLatest() {
+        return codes.values().stream()
+                        .sorted(Comparator.comparing(Code::getDate).reversed())
+                .limit(10)
+                .toList();
     }
 
 }

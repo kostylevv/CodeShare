@@ -9,13 +9,19 @@
     <title>Code</title>
 </head>
 <body>
-    <div class="d-flex justify-content-center">
-        <div class="card">
-            <div class="card-body">
-                <pre>${snippet}</pre>
-                <span id="load_date">${date}</span>
+<div class="container">
+        <div class="row align-self-center">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <span id="load_date">${date}</span>
+                    </div>
+                    <div class="card-body">
+                        <pre><code>${snippet}</code></pre>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+</div>
 </body>
 </html>
