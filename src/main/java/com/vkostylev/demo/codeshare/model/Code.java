@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Code {
@@ -13,12 +13,13 @@ public class Code {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String code;
+    private LocalDateTime date;
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -34,9 +35,7 @@ public class Code {
         return id;
     }
 
-    private LocalDate date;
-
-    public Code(long id, String code, LocalDate date) {
+    public Code(long id, String code, LocalDateTime date) {
         this.id = id;
         this.code = code;
         this.date = date;

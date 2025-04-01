@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CrudCodeRepository extends CrudRepository<Code, Long> {
-    List<Code> findTop10ByOrderByDate();
+    List<Code> findTop10ByOrderByDateDesc();
 
 }

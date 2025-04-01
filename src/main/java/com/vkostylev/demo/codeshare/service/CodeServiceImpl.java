@@ -9,7 +9,7 @@ import com.vkostylev.demo.codeshare.model.Code;
 import com.vkostylev.demo.codeshare.repository.CrudCodeRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,7 +47,7 @@ public class CodeServiceImpl implements CodeSerivce {
     public String newCode(String codeString) {
         Code code = new Code();
         code.setCode(codeString);
-        code.setDate(LocalDate.now());
+        code.setDate(LocalDateTime.now());
         Code addedCode = codeRepository.save(code);
         CodeIdDto codeIdDto = CodeMapper.mapToCodeIdDto(addedCode);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -61,7 +61,7 @@ public class CodeServiceImpl implements CodeSerivce {
 
     @Override
     public List<CodeDto> getLatest() {
-        return codeRepository.findTop10ByOrderByDate().stream().map(CodeMapper::mapToCodeDto).collect(Collectors.toList());
+        return codeRepository.findTop10ByOrderByDateDesc().stream().map(CodeMapper::mapToCodeDto).collect(Collectors.toList());
     }
 
     @Override
