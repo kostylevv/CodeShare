@@ -1,6 +1,8 @@
 package com.vkostylev.demo.codeshare.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 // an annotation goes here

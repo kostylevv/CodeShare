@@ -1,9 +1,17 @@
 package com.vkostylev.demo.codeshare.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 
+@Entity
 public class Code {
-    private final long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String code;
 
     private LocalDate date;
@@ -12,6 +20,10 @@ public class Code {
         this.id = id;
         this.code = code;
         this.date = date;
+    }
+
+    public Code() {
+
     }
 
     public String getCode() {
