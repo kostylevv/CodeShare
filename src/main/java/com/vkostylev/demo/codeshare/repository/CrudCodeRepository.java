@@ -1,16 +1,13 @@
 package com.vkostylev.demo.codeshare.repository;
 
 import com.vkostylev.demo.codeshare.model.Code;
-import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
-@NoRepositoryBean
-public interface CrudCodeRepository extends Repository<Code, Long> {
-    Optional<Code> findById(Long id);
+@Repository
+public interface CrudCodeRepository extends CrudRepository<Code, Long> {
+    List<Code> findTop10ByOrderByDate();
 
-    Code save(Code entity);
-
-    Iterable<Code> findAll();
 }

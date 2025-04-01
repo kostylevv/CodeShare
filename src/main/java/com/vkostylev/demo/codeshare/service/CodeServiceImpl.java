@@ -1,30 +1,30 @@
 package com.vkostylev.demo.codeshare.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vkostylev.demo.codeshare.dto.CodeDto;
 import com.vkostylev.demo.codeshare.dto.CodeIdDto;
 import com.vkostylev.demo.codeshare.dto.CodeMapper;
 import com.vkostylev.demo.codeshare.model.Code;
-import com.vkostylev.demo.codeshare.repository.CodeRepository;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.vkostylev.demo.codeshare.repository.CrudCodeRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CodeServiceImpl implements CodeSerivce {
-    private final CodeRepository codeRepository;
+    private final CrudCodeRepository codeRepository;
 
-    public CodeServiceImpl(CodeRepository codeRepository) {
+    public CodeServiceImpl(CrudCodeRepository codeRepository) {
         this.codeRepository = codeRepository;
     }
 
     @Override
     public Optional<CodeDto> getCode(long id) {
-        Optional<Code> code = codeRepository.getCode(id);
+        Optional<Code> code = codeRepository.findById(id);
         return code.map(CodeMapper::mapToCodeDto);
     }
 
@@ -45,8 +45,11 @@ public class CodeServiceImpl implements CodeSerivce {
 
     @Override
     public String newCode(String codeString) {
-        Code code = codeRepository.addCode(codeString);
-        CodeIdDto codeIdDto = CodeMapper.mapToCodeIdDto(code);
+        Code code = new Code();
+        code.setCode(codeString);
+        code.setDate(LocalDate.now());
+        Code addedCode = codeRepository.save(code);
+        CodeIdDto codeIdDto = CodeMapper.mapToCodeIdDto(addedCode);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(codeIdDto);
@@ -58,7 +61,7 @@ public class CodeServiceImpl implements CodeSerivce {
 
     @Override
     public List<CodeDto> getLatest() {
-        return codeRepository.getLatest().stream().map(CodeMapper::mapToCodeDto).toList();
+        return codeRepository.findTop10ByOrderByDate().stream().map(CodeMapper::mapToCodeDto).collect(Collectors.toList());
     }
 
     @Override

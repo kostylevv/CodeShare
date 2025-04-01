@@ -14,6 +14,26 @@ public class Code {
     private long id;
     private String code;
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public long getId() {
+        return id;
+    }
+
     private LocalDate date;
 
     public Code(long id, String code, LocalDate date) {
@@ -26,15 +46,4 @@ public class Code {
 
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public long getId() {
-        return id;
-    }
 }
