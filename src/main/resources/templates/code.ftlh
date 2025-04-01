@@ -48,7 +48,7 @@
                                 <span id="load_date">${date}</span>
                             </div>
                             <p class="card-text mb-auto">
-                            <pre id="code_snippet">${snippet}</pre>
+                            <pre id="code_snippet"><code>${snippet}</code></pre>
                             </p>
                         </div>
                     </div>
@@ -79,5 +79,9 @@
             text: 'Thumbnail'
         });
     </script>
+    <link rel="stylesheet"
+          href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/default.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>
