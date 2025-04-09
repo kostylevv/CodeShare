@@ -25,8 +25,31 @@ public class CodeServiceImpl implements CodeSerivce {
     @Override
     public Optional<CodeDto> getCode(long id) {
         Optional<Code> code = codeRepository.findById(id);
+        //if code isSecret return getSecretCode
         return code.map(CodeMapper::mapToCodeDto);
     }
+
+    /*
+    private getSecretCode() {
+        if (view_limit > 0) {
+            view_limit--;
+            if (view_limit == 0) {
+                deleteFromDB, return empty;
+            }
+        }
+
+        if (time_limit >0) {
+            Period period = Period.of(time_limit);
+            LDT now = LDT.NOW();
+            LDT deadline = LDT.from(_date_).plus(period);
+
+            if (now.isAfer(deadline)) {
+                deleteformDB, return empty;
+            }
+        }
+        return map etc;
+    }
+     */
 
     @Override
     public Optional<String> getJson(long id) {

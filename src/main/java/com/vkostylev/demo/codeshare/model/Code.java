@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Code {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private long id;
     private String code;
     private LocalDateTime date;
