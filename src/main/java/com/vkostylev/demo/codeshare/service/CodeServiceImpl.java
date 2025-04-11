@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +24,7 @@ public class CodeServiceImpl implements CodeSerivce {
     }
 
     @Override
-    public Optional<CodeDto> getCode(long id) {
+    public Optional<CodeDto> getCode(String id) {
         Optional<Code> code = codeRepository.findById(id);
         //if code isSecret return getSecretCode
         return code.map(CodeMapper::mapToCodeDto);
@@ -52,7 +53,7 @@ public class CodeServiceImpl implements CodeSerivce {
      */
 
     @Override
-    public Optional<String> getJson(long id) {
+    public Optional<String> getJson(String id) {
         Optional<CodeDto> dto = getCode(id);
         if (dto.isPresent()) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -68,9 +69,9 @@ public class CodeServiceImpl implements CodeSerivce {
 
     @Override
     public String newCode(String codeString) {
-        Code code = new Code();
-        code.setCode(codeString);
-        code.setDate(LocalDateTime.now());
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+        Code code = new Code(randomUUIDString, codeString, LocalDateTime.now());
         Code addedCode = codeRepository.save(code);
         CodeIdDto codeIdDto = CodeMapper.mapToCodeIdDto(addedCode);
         ObjectMapper objectMapper = new ObjectMapper();

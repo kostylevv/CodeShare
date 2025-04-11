@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CrudCodeRepository extends CrudRepository<Code, Long> {
+public interface CrudCodeRepository extends CrudRepository<Code, String> {
     List<Code> findTop10ByOrderByDateDesc();
 
 }

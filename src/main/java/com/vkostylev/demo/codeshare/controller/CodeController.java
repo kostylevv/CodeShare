@@ -22,9 +22,9 @@ public class CodeController {
         this.codeSerivce = codeSerivce;
     }
 
-    @GetMapping(path = "/code/{id}")
-    public String getCodeHtml(@PathVariable int id, Model model, HttpServletResponse response) {
-        Optional<CodeDto> codeDto = codeSerivce.getCode(id);
+    @GetMapping(path = "/code/{uuid}")
+    public String getCodeHtml(@PathVariable String uuid, Model model, HttpServletResponse response) {
+        Optional<CodeDto> codeDto = codeSerivce.getCode(uuid);
         if (codeDto.isPresent()) {
             CodeDto result = codeDto.get();
             model.addAttribute("snippet", result.getCode());
@@ -37,9 +37,9 @@ public class CodeController {
         }
     }
 
-    @GetMapping(path = "/api/code/{id}")
-    public ResponseEntity<String> getCodeJson(@PathVariable int id) {
-        Optional<String> result = codeSerivce.getJson(id);
+    @GetMapping(path = "/api/code/{uuid}")
+    public ResponseEntity<String> getCodeJson(@PathVariable String uuid) {
+        Optional<String> result = codeSerivce.getJson(uuid);
         return result.map(s -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(s)).orElseGet(() -> ResponseEntity.notFound().build());

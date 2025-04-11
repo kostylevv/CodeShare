@@ -11,5 +11,5 @@ public class CodeMapper {
         return new CodeDto(code.getCode(), dateText);
     }
     public static CodeIdDto mapToCodeIdDto(Code code) {
-        return new CodeIdDto(String.valueOf(code.getId()));}
+        return new CodeIdDto(code.getId());}
 }

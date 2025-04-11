@@ -1,19 +1,28 @@
 package com.vkostylev.demo.codeshare.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class Code {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private long id;
+    private String id;
+
     private String code;
     private LocalDateTime date;
+
+    public Code() {
+
+    }
+
+    public Code(String id, String code, LocalDateTime date) {
+        this.id = id;
+        this.code = code;
+        this.date = date;
+    }
 
     public LocalDateTime getDate() {
         return date;
@@ -31,18 +40,12 @@ public class Code {
         this.code = code;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public Code(long id, String code, LocalDateTime date) {
+    public void setId(String id) {
         this.id = id;
-        this.code = code;
-        this.date = date;
-    }
-
-    public Code() {
-
     }
 
 }
