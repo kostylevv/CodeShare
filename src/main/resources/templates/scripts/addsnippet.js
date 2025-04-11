@@ -14,7 +14,9 @@
 
         function send() {
             let object = {
-                "code": document.getElementById("code_snippet").value
+                "code": document.getElementById("code_snippet").value,
+                "viewLimit": document.getElementById("views_restriction").value,
+                "timeLimit": document.getElementById("time_restriction").value
             };
 
             let json = JSON.stringify(object);

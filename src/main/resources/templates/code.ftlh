@@ -49,6 +49,8 @@
                             </div>
                             <p class="card-text mb-auto">
                             <pre id="code_snippet"><code>${snippet}</code></pre>
+                            <span id="views_restriction">${views}</span>
+                            <span id="time_restriction">${time}</span>
                             </p>
                         </div>
                     </div>

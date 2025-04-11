@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface CodeSerivce {
     Optional<CodeDto> getCode(String id);
     Optional<String> getJson(String id);
-    String newCode(String codeString);
+    String newCode(String codeString, int viewLimit, int timeLimit);
     List<CodeDto> getLatest();
     String getLatestJson();
 

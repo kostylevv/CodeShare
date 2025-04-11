@@ -9,6 +9,7 @@ import com.vkostylev.demo.codeshare.model.Code;
 import com.vkostylev.demo.codeshare.repository.CrudCodeRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,31 @@ public class CodeServiceImpl implements CodeSerivce {
     public Optional<CodeDto> getCode(String id) {
         Optional<Code> code = codeRepository.findById(id);
         //if code isSecret return getSecretCode
+        if (code.isPresent() && code.get().isSecret()) {
+            return getSecret(code.get());
+        }
         return code.map(CodeMapper::mapToCodeDto);
+    }
+
+    public Optional<CodeDto> getSecret(Code code) {
+        if (code.getViewLimit() > 0) {
+            int viewLimit = code.getViewLimit() - 1;
+            code.setViewLimit(viewLimit);
+            if (viewLimit == 0) {
+                codeRepository.deleteById(code.getId());
+                return Optional.empty();
+            }
+        }
+
+        if (code.getTimeLimit() > 0) {
+            Duration durationOfLimit = Duration.ofSeconds(code.getTimeLimit());
+            LocalDateTime deadline = LocalDateTime.now().plus(durationOfLimit);
+            if (deadline.isBefore(LocalDateTime.now())) {
+                codeRepository.deleteById(code.getId());
+                return Optional.empty();
+            }
+        }
+        return Optional.of(CodeMapper.mapToCodeDto(code));
     }
 
     /*
@@ -68,10 +93,10 @@ public class CodeServiceImpl implements CodeSerivce {
     }
 
     @Override
-    public String newCode(String codeString) {
+    public String newCode(String codeString, int viewLimit, int timeLimit) {
         UUID uuid = UUID.randomUUID();
         String randomUUIDString = uuid.toString();
-        Code code = new Code(randomUUIDString, codeString, LocalDateTime.now());
+        Code code = new Code(randomUUIDString, codeString, LocalDateTime.now(), viewLimit, timeLimit);
         Code addedCode = codeRepository.save(code);
         CodeIdDto codeIdDto = CodeMapper.mapToCodeIdDto(addedCode);
         ObjectMapper objectMapper = new ObjectMapper();
