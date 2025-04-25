@@ -45,7 +45,6 @@ public class CodeController {
         return result.map(s -> ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(s)).orElseGet(() -> ResponseEntity.notFound().build());
-
     }
 
     @GetMapping(path = "/code/new")
