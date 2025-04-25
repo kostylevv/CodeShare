@@ -73,6 +73,8 @@ public class CodeServiceImpl implements CodeSerivce {
     public String newCode(String codeString, int viewLimit, int timeLimit) {
         UUID uuid = UUID.randomUUID();
         String randomUUIDString = uuid.toString();
+        System.out.println("vl" + viewLimit);
+        System.out.println("tl" + timeLimit);
         Code code = new Code(randomUUIDString, codeString, LocalDateTime.now(), viewLimit, timeLimit);
         Code addedCode = codeRepository.save(code);
         CodeIdDto codeIdDto = CodeMapper.mapToCodeIdDto(addedCode);
@@ -87,7 +89,7 @@ public class CodeServiceImpl implements CodeSerivce {
 
     @Override
     public List<CodeDto> getLatest() {
-        return codeRepository.findTop10ByOrderByDateDesc().stream().map(CodeMapper::mapToCodeDto).collect(Collectors.toList());
+        return codeRepository.findLatest().stream().map(CodeMapper::mapToCodeDto).collect(Collectors.toList());
     }
 
     @Override
