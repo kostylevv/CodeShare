@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /***
- * @TODO modify latest to exclude secret snippets
- * @TODO check that time and view limits are added properly
  * @TODO add time and view limits to front
- * @TODO fix varchar type for long text
+ * @TODO final check to spec
+ * @TODO checkstyle
  */
 @SpringBootApplication
 public class CodeShareApplication {

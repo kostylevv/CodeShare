@@ -1,20 +1,29 @@
 package com.vkostylev.demo.codeshare.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
+@Table(name = "snippets")
 public class Code {
     @Id
+    @Column(name = "uuid")
     private String id;
 
+    @Column(name = "snippet")
     private String code;
+
+    @Column(name = "snippet_date")
     private LocalDateTime date;
 
+    @Column(name = "view_limit")
     private int viewLimit;
+
+    @Column(name = "time_limit")
     private int timeLimit;
 
     public Code() {
@@ -25,6 +34,8 @@ public class Code {
         this.id = id;
         this.code = code;
         this.date = date;
+        this.viewLimit = viewLimit;
+        this.timeLimit = timeLimit;
     }
 
     public LocalDateTime getDate() {
