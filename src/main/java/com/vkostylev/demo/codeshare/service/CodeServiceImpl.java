@@ -33,10 +33,11 @@ public class CodeServiceImpl implements CodeSerivce {
         return code.map(CodeMapper::mapToCodeDto);
     }
 
-    public Optional<CodeDto> getSecret(Code code) {
+    private Optional<CodeDto> getSecret(Code code) {
         if (code.getViewLimit() > 0) {
             int viewLimit = code.getViewLimit() - 1;
             code.setViewLimit(viewLimit);
+            codeRepository.save(code);
             if (viewLimit == 0) {
                 codeRepository.deleteById(code.getId());
                 return Optional.empty();
@@ -45,7 +46,7 @@ public class CodeServiceImpl implements CodeSerivce {
 
         if (code.getTimeLimit() > 0) {
             Duration durationOfLimit = Duration.ofSeconds(code.getTimeLimit());
-            LocalDateTime deadline = LocalDateTime.now().plus(durationOfLimit);
+            LocalDateTime deadline = code.getDate().plusSeconds(durationOfLimit.getSeconds());
             if (deadline.isBefore(LocalDateTime.now())) {
                 codeRepository.deleteById(code.getId());
                 return Optional.empty();

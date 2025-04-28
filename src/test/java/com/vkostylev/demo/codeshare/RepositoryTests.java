@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringBootTest
-public class ServiceLayerTests {
+public class RepositoryTests {
 
     @Autowired
     CrudCodeRepository crudCodeRepository;

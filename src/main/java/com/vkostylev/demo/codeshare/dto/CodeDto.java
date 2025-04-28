@@ -1,5 +1,7 @@
 package com.vkostylev.demo.codeshare.dto;
 
+import java.util.Objects;
+
 public class CodeDto {
     private final String code;
     private final String date;
@@ -26,5 +28,17 @@ public class CodeDto {
     }
     public int getTimeLimit() {
         return timeLimit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CodeDto codeDto = (CodeDto) o;
+        return Objects.equals(code, codeDto.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(code);
     }
 }

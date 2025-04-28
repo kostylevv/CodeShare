@@ -9,8 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CrudCodeRepository extends CrudRepository<Code, String> {
-    List<Code> findTop10ByOrderByDateDesc();
-
     @Query("select c from Code c where c.timeLimit = 0 and c.viewLimit = 0 order by c.date desc limit 10")
     List<Code> findLatest();
 
