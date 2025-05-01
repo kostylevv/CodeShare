@@ -49,8 +49,8 @@
                 <div class="card flex-md-row mb-4 box-shadow h-md-250">
                     <div class="card-body d-flex flex-column align-items-start">
                         <label for="code_snippet"></label><textarea id="code_snippet"> ... </textarea>
-                        <label for="views_restriction"></label><input id="views_restriction" type="text"/>
-                        <label for="time_restriction"></label><input id="time_restriction" type="text"/>
+                        <label for="views_restriction">Views restriction</label><input id="views_restriction" type="text"/>
+                        <label for="time_restriction">Time restriction in seconds</label><input id="time_restriction" type="text"/>
                         <button id="send_snippet" type="submit" onclick="send()">Submit</button>
                     </div>
                 </div>

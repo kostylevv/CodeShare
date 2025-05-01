@@ -24,13 +24,13 @@ public class Code {
     private int viewLimit;
 
     @Column(name = "time_limit")
-    private int timeLimit;
+    private long timeLimit;
 
     public Code() {
 
     }
 
-    public Code(String id, String code, LocalDateTime date, int viewLimit, int timeLimit) {
+    public Code(String id, String code, LocalDateTime date, int viewLimit, long timeLimit) {
         this.id = id;
         this.code = code;
         this.date = date;
@@ -70,11 +70,11 @@ public class Code {
         this.viewLimit = viewLimit;
     }
 
-    public int getTimeLimit() {
+    public long getTimeLimit() {
         return timeLimit;
     }
 
-    public void setTimeLimit(int timeLimit) {
+    public void setTimeLimit(long timeLimit) {
         this.timeLimit = timeLimit;
     }
 

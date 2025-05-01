@@ -45,11 +45,13 @@ public class CodeServiceImpl implements CodeSerivce {
         }
 
         if (code.getTimeLimit() > 0) {
-            Duration durationOfLimit = Duration.ofSeconds(code.getTimeLimit());
-            LocalDateTime deadline = code.getDate().plusSeconds(durationOfLimit.getSeconds());
+            LocalDateTime deadline = code.getDate().plusSeconds(code.getTimeLimit());
             if (deadline.isBefore(LocalDateTime.now())) {
                 codeRepository.deleteById(code.getId());
                 return Optional.empty();
+            } else {
+                Duration newDuration = Duration.between(LocalDateTime.now(), deadline);
+                code.setTimeLimit(newDuration.getSeconds());
             }
         }
         return Optional.of(CodeMapper.mapToCodeDto(code));
