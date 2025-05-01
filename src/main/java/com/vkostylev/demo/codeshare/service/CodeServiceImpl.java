@@ -1,12 +1,13 @@
 package com.vkostylev.demo.codeshare.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vkostylev.demo.codeshare.dto.CodeDto;
 import com.vkostylev.demo.codeshare.dto.CodeIdDto;
 import com.vkostylev.demo.codeshare.dto.CodeMapper;
 import com.vkostylev.demo.codeshare.model.Code;
 import com.vkostylev.demo.codeshare.repository.CrudCodeRepository;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -40,7 +41,6 @@ public class CodeServiceImpl implements CodeSerivce {
             codeRepository.save(code);
             if (viewLimit == 0) {
                 codeRepository.deleteById(code.getId());
-                return Optional.empty();
             }
         }
 

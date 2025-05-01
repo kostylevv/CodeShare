@@ -2,6 +2,7 @@ package com.vkostylev.demo.codeshare.dto;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CodeDto {
@@ -14,11 +15,15 @@ public class CodeDto {
     @JsonProperty("time")
     private final long timeLimit;
 
-    public CodeDto(String code, String date, int viewLimit, long timeLimit) {
+    @JsonIgnore
+    private final boolean viewLimited;
+
+    public CodeDto(String code, String date, int viewLimit, long timeLimit, boolean viewLimited) {
         this.code = code;
         this.date = date;
         this.viewLimit = viewLimit;
         this.timeLimit = timeLimit;
+        this.viewLimited = viewLimited;
     }
 
     public String getCode() {
@@ -46,5 +51,9 @@ public class CodeDto {
     @Override
     public int hashCode() {
         return Objects.hashCode(code);
+    }
+
+    public boolean isViewLimited() {
+        return viewLimited;
     }
 }

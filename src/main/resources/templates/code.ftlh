@@ -50,7 +50,7 @@
                             <p class="card-text mb-auto">
                             <pre id="code_snippet"><code>${snippet}</code></pre>
 
-                            <#if (views > 0)>
+                            <#if isViewLimited>
                                 <span id="views_restriction">${views}</span>
                             </#if>
                             <#if (time > 0)>

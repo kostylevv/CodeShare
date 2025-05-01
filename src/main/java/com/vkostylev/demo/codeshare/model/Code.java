@@ -1,9 +1,6 @@
 package com.vkostylev.demo.codeshare.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -26,9 +23,10 @@ public class Code {
     @Column(name = "time_limit")
     private long timeLimit;
 
-    public Code() {
+    @Transient
+    private boolean viewLimited;
 
-    }
+    public Code() { }
 
     public Code(String id, String code, LocalDateTime date, int viewLimit, long timeLimit) {
         this.id = id;
@@ -36,6 +34,9 @@ public class Code {
         this.date = date;
         this.viewLimit = viewLimit;
         this.timeLimit = timeLimit;
+        if (viewLimit > 0) {
+            this.viewLimited = true;
+        }
     }
 
     public LocalDateTime getDate() {
@@ -80,5 +81,9 @@ public class Code {
 
     public boolean isSecret() {
         return viewLimit > 0 || timeLimit > 0;
+    }
+
+    public boolean isViewLimited() {
+        return viewLimited;
     }
 }

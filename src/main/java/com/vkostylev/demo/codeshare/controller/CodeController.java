@@ -31,6 +31,7 @@ public class CodeController {
             model.addAttribute("date", result.getDate());
             model.addAttribute("views", result.getViewLimit());
             model.addAttribute("time", result.getTimeLimit());
+            model.addAttribute("isViewLimited", result.isViewLimited());
             response.setStatus(HttpStatus.OK.value());
             return "code";
         } else {
@@ -54,7 +55,7 @@ public class CodeController {
 
     @PostMapping(path = "/api/code/new")
     public ResponseEntity<String> createCodePost(@RequestBody NewCodeDto codeDto) {
-        String result = codeSerivce.newCode(codeDto.code(), codeDto.viewLimit(), codeDto.timeLimit());
+        String result = codeSerivce.newCode(codeDto.code(), codeDto.views(), codeDto.time());
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(result);
