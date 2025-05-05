@@ -4,6 +4,7 @@ import com.vkostylev.demo.codeshare.dto.CodeDto;
 import com.vkostylev.demo.codeshare.dto.NewCodeDto;
 import com.vkostylev.demo.codeshare.service.CodeSerivce;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class CodeController {
     }
 
     @PostMapping(path = "/api/code/new")
-    public ResponseEntity<String> createCodePost(@RequestBody NewCodeDto codeDto) {
+    public ResponseEntity<String> createCodePost(@Valid @RequestBody NewCodeDto codeDto) {
         String result = codeSerivce.newCode(codeDto.code(), codeDto.views(), codeDto.time());
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
