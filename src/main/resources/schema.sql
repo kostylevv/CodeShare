@@ -1,4 +1,6 @@
 CREATE TABLE IF NOT EXISTS snippets (
-                                     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                                     snippet CHARACTER VARYING NOT NULL,
-    snippet_date TIMESTAMP);
+                                     uuid VARCHAR NOT NULL PRIMARY KEY,
+                                     snippet VARCHAR(1000) NOT NULL,
+    snippet_date TIMESTAMP,
+    view_limit INTEGER,
+    time_limit BIGINT);

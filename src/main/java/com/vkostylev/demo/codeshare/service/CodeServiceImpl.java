@@ -1,17 +1,20 @@
 package com.vkostylev.demo.codeshare.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vkostylev.demo.codeshare.dto.CodeDto;
 import com.vkostylev.demo.codeshare.dto.CodeIdDto;
 import com.vkostylev.demo.codeshare.dto.CodeMapper;
 import com.vkostylev.demo.codeshare.model.Code;
 import com.vkostylev.demo.codeshare.repository.CrudCodeRepository;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,13 +26,39 @@ public class CodeServiceImpl implements CodeSerivce {
     }
 
     @Override
-    public Optional<CodeDto> getCode(long id) {
+    public Optional<CodeDto> getCode(String id) {
         Optional<Code> code = codeRepository.findById(id);
+        if (code.isPresent() && code.get().isSecret()) {
+            return getSecret(code.get());
+        }
         return code.map(CodeMapper::mapToCodeDto);
     }
 
+    private Optional<CodeDto> getSecret(Code code) {
+        if (code.getViewLimit() > 0) {
+            int viewLimit = code.getViewLimit() - 1;
+            code.setViewLimit(viewLimit);
+            codeRepository.save(code);
+            if (viewLimit == 0) {
+                codeRepository.deleteById(code.getId());
+            }
+        }
+
+        if (code.getTimeLimit() > 0) {
+            LocalDateTime deadline = code.getDate().plusSeconds(code.getTimeLimit());
+            if (deadline.isBefore(LocalDateTime.now())) {
+                codeRepository.deleteById(code.getId());
+                return Optional.empty();
+            } else {
+                Duration newDuration = Duration.between(LocalDateTime.now(), deadline);
+                code.setTimeLimit(newDuration.getSeconds());
+            }
+        }
+        return Optional.of(CodeMapper.mapToCodeDto(code));
+    }
+
     @Override
-    public Optional<String> getJson(long id) {
+    public Optional<String> getJson(String id) {
         Optional<CodeDto> dto = getCode(id);
         if (dto.isPresent()) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -44,10 +73,10 @@ public class CodeServiceImpl implements CodeSerivce {
     }
 
     @Override
-    public String newCode(String codeString) {
-        Code code = new Code();
-        code.setCode(codeString);
-        code.setDate(LocalDateTime.now());
+    public String newCode(String codeString, int viewLimit, int timeLimit) {
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+        Code code = new Code(randomUUIDString, codeString, LocalDateTime.now(), viewLimit, timeLimit);
         Code addedCode = codeRepository.save(code);
         CodeIdDto codeIdDto = CodeMapper.mapToCodeIdDto(addedCode);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -61,7 +90,7 @@ public class CodeServiceImpl implements CodeSerivce {
 
     @Override
     public List<CodeDto> getLatest() {
-        return codeRepository.findTop10ByOrderByDateDesc().stream().map(CodeMapper::mapToCodeDto).collect(Collectors.toList());
+        return codeRepository.findLatest().stream().map(CodeMapper::mapToCodeDto).collect(Collectors.toList());
     }
 
     @Override

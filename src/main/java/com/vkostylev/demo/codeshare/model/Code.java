@@ -1,19 +1,43 @@
 package com.vkostylev.demo.codeshare.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "snippets")
 public class Code {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @Column(name = "uuid")
+    private String id;
+
+    @Column(name = "snippet")
     private String code;
+
+    @Column(name = "snippet_date")
     private LocalDateTime date;
+
+    @Column(name = "view_limit")
+    private int viewLimit;
+
+    @Column(name = "time_limit")
+    private long timeLimit;
+
+    @Transient
+    private boolean viewLimited;
+
+    public Code() { }
+
+    public Code(String id, String code, LocalDateTime date, int viewLimit, long timeLimit) {
+        this.id = id;
+        this.code = code;
+        this.date = date;
+        this.viewLimit = viewLimit;
+        this.timeLimit = timeLimit;
+        if (viewLimit > 0) {
+            this.viewLimited = true;
+        }
+    }
 
     public LocalDateTime getDate() {
         return date;
@@ -31,18 +55,35 @@ public class Code {
         this.code = code;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public Code(long id, String code, LocalDateTime date) {
+    public void setId(String id) {
         this.id = id;
-        this.code = code;
-        this.date = date;
     }
 
-    public Code() {
-
+    public int getViewLimit() {
+        return viewLimit;
     }
 
+    public void setViewLimit(int viewLimit) {
+        this.viewLimit = viewLimit;
+    }
+
+    public long getTimeLimit() {
+        return timeLimit;
+    }
+
+    public void setTimeLimit(long timeLimit) {
+        this.timeLimit = timeLimit;
+    }
+
+    public boolean isSecret() {
+        return viewLimit > 0 || timeLimit > 0;
+    }
+
+    public boolean isViewLimited() {
+        return viewLimited;
+    }
 }
